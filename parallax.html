@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>parallax</title>
+    <style>
+        .ui-wrap {height: 500vh}
+        .ui-wrap__con {margin: 100vh 0 0;}
+        .ui-wrap__con__box {width: 200px; height: 200px; background: tomato;}
+    </style>
+</head>
+<body>
+    <div class="ui-wrap">
+        <div class="ui-wrap__con">
+            <div class="ui-wrap__con__box" data-parallax ='{"from": {"x": 0}, "to": {"x": 300} }' data-observe='{"from": {"x": 0, "opacity": 0}, "to": {"x": 500} }' ></div>
+        </div>
+        <div class="ui-wrap__con">
+            <div class="ui-wrap__con__box" data-parallax ='{"from": {"x": 200}, "to": {"x": 500} }'></div>
+        </div>
+        <div class="ui-wrap__con">
+            <div class="ui-wrap__con__box"></div>
+        </div>
+    </div>
+
+    <script>
+        class Parallax {
+            constructor (elem) {
+                this.elem = elem;
+                this.eventHandler(elem);
+            }
+
+            createList (lists) {
+                const createList = {};
+                const dataDefaultOpt = {"x": 0, "y": 0, "opacity": 1};
+                lists.forEach((el, idx) => {
+                    createList[idx] = {tag : el};
+                    const datas = el.dataset;
+                    for (const data in datas) {
+                        const targetData = el.dataset[data];
+                        createList[idx][data] = (targetData == undefined) ? {} : JSON.parse(targetData);
+                        createList[idx][data].from = Object.assign({}, dataDefaultOpt, createList[idx][data].from);
+                        createList[idx][data].to = Object.assign({}, dataDefaultOpt, createList[idx][data].to);
+                    }
+                });
+                return createList;
+            }
+
+            observerEvent (lists) {
+                console.log('observerEvent',this.elem);
+                console.log(Object.entries(lists));
+                const observer = new IntersectionObserver (etnries => {
+                    etnries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            console.log(entry.target);
+                        }
+                    });
+                });
+                this.elem.forEach(v => observer.observe(v));
+            }
+
+            parallaxEvent (lists) {
+                console.log('parallaxEvent test');
+            }
+
+            eventHandler (elem) {
+                const eventList = this.createList(elem);
+                console.dir(this);
+                console.dir(eventList);
+                this.parallaxEvent(eventList);
+                this.observerEvent(eventList);
+            }
+        }
+
+        const boxes = document.querySelectorAll('.ui-wrap__con__box');
+        const parallax = new Parallax(boxes);
+    </script>
+</body>
+</html>

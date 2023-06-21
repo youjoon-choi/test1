@@ -1,0 +1,7 @@
+var screen = {
+				in: elRect.top >= 0 && elRect.bottom <= screenHeight,
+				enterTop: elRect.top < 0 && elRect.top > -elHeight,
+				enterBottom: elRect.bottom > screenHeight && elRect.bottom - elHeight < screenHeight,
+			}
+
+			return (screen.in) ? 'in' : (screen.enterTop || screen.enterBottom) ? 'enter' : 'leave';

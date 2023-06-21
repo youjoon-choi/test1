@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {margin: 0; padding: 0;}
+        .item_wrap {height: 3000px;}
+        .item_wrap__item {width: 200px; height: 200px; background-color: royalblue; margin: 0 0 600px; padding: 10px; color: #fff; font-size: 12px; will-change: transform, opacity;} 
+    </style>
+</head>
+<body>
+    <div class="item_wrap">
+        <div style="margin-top: 100vh"></div>
+        <!-- <div class="item_wrap__item" data-ani='{"to": {"x" : 100}, "duration": 0.5}' >default</div> -->
+        <!-- <div class="item_wrap__item" data-ani='{"from" : {"x" : 0, "opacity": 0}, "to" : {"x" : 500, "opacity": 1}, "duration": 2, "easing": "ease-in-out", "offset": 400}'}'></div> -->
+        <div class="item_wrap__item" data-ani='{"from" : {"x" : 0}, "to" : {"x" : "20vw"}, "offset": 400}'>
+            <div class="item_wrap__offset"></div>
+        </div>
+        <!-- <div class="item_wrap__item" data-ani='{"from" : {"y" : 0, "opacity": 0}, "to" : {"y" : -100, "opacity": 1}}'></div> -->
+    </div>
+
+    <script>
+        class ItemMotion {
+            constructor (items) {
+                this.items = items;
+                this.itemList = [];
+                this.itemListRender();
+                this.motionHandler();
+            }
+
+            CreateItem ({from, to, duration, easing, offset}) {
+                const defaultOptions = {"x": 0, "y": 0, "opacity": 1}
+                return {
+                    from : Object.assign({}, defaultOptions, from),
+                    to : Object.assign({}, defaultOptions, to),
+                    duration : duration || 1,
+                    easing : easing || 'ease',
+                    offset : offset || 0,
+                    delay : 1,
+                }
+            }
+
+            itemListRender () {
+                this.items.forEach(v => {
+                    // v.textContent = v.dataset.ani;
+                    const targetData = JSON.parse(v.dataset.ani);
+                    const item = this.CreateItem(targetData);
+                    this.itemList.push({tag: v, data : item});
+                });
+            }
+
+            motionHandler () {
+                console.dir(this);
+                const observer = new IntersectionObserver(entries => {
+                    entries.forEach((entry, idx) => {
+                        console.dir(entry.intersectionRatio);
+                        const target = entry.target;
+                        const targetData = this.itemList.find((el) => el.tag == entry.target).data;
+                        const unit = num => (isNaN(num)) ? num : (num + 'px'); 
+                        //console.log(entry.boundingClientRect.top + targetData.offset, innerHeight);
+                        console.log(entry.target.querySelector('.item_wrap__offset').getBoundingClientRect().top);
+                        const conditions = (
+                                entry.intersectionRatio > 0 &&
+                                entry.boundingClientRect.top + targetData.offset <= innerHeight &&
+                                entry.boundingClientRect.bottom < innerHeight
+                            );
+                        const fromTo = conditions ? targetData.to : targetData.from;
+                        target.style.transform = `translate(${unit(fromTo.x)}, ${unit(fromTo.y)})`;
+                        target.style.opacity = `${fromTo.opacity}`; 
+                        target.style.transition = conditions ? `${targetData.duration}s all ${targetData.easing}` : 'none';
+                    });
+                }, {
+                    threshold: Array.from({length: 101}, (_, i) => i*0.01), 
+                });
+                this.itemList.forEach(el => {
+                    observer.observe(el.tag);
+                });
+            }
+        }
+
+        const items = document.querySelectorAll('.item_wrap__item');
+        const itemMotion = new ItemMotion(items);
+
+    </script>
+</body>
+</html>

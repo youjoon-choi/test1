@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    * {padding: 0;margin:0;}
+    .scroll {height: 100vh}
+    .scroll-item {position:relative;height: 70vh;background: #fff;font-size:50px;display: flex;align-items: center;justify-content: center;border:5px solid #000;box-sizing: border-box;}
+    /* .scroll-item.on {background: #000;color:#fff;} */
+
+    .scroll-item.in {background: #808080;}
+    .scroll-item.enter {background: #ccc;}
+    .scroll-item span {
+        position: absolute;
+        left: 50%;
+        top:50%;
+        width: 100px;
+        height: 100px;
+        background: #000;
+        transition: 1s all;
+    }
+    .scroll-item.in span {
+        transform: scale(2);
+    }
+    </style>
+</head>
+<body>
+    <div class="scroll">
+        <div class="scroll-item"><span></span>1</div>
+        <div class="scroll-item"><span></span>2</div> 
+        <div class="scroll-item"><span></span>3</div>
+        <div class="scroll-item"><span></span>4</div>
+        <div class="scroll-item"><span></span>5</div>
+        <div class="scroll-item"><span></span>6</div>
+        <div class="scroll-item"><span></span>7</div>
+        <div class="scroll-item"><span></span>8</div>
+        <div class="scroll-item"><span></span>9</div>
+        <div class="scroll-item"><span></span>10</div>
+    </div>
+    <script>
+    class ScrollManager {
+        constructor(el){
+            this.init();
+        }
+
+        getVeiwport (el) {
+            const {top, bottom} = el.getBoundingClientRect();
+            return {
+                enter : (top < 0 && bottom > 0) || (top < innerHeight && bottom > innerHeight),
+                inn : top >= 0 && bottom <= innerHeight,
+            }
+        }
+
+        init() {
+            window.addEventListener('scroll', () => {
+                const items = document.querySelectorAll('.scroll-item');
+                items.forEach((item, i)=> {
+                    const viewport = this.getVeiwport(item);
+                    viewport.enter ? item.classList.add('enter') : item.classList.remove('enter');
+                    viewport.inn ? item.classList.add('in') : item.classList.remove('in');           
+                });
+            });
+            window.dispatchEvent(new Event('scroll'));
+        }
+    }
+
+
+    const scroll = new ScrollManager(document.querySelector('.scroll'));
+    
+    </script>
+</body>
+</html>
