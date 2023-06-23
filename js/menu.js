@@ -25,14 +25,28 @@ class ScrollEvent {
     }
 }
 
+class ObserverEvent {
+    constructor (items) {
+        this.items = items;
+        this.observerHandler();
+    }
+
+    observerHandler () {
+        
+    }
+}
+
 window.onload = () => {
     ScrollEvent.scrollEventHandler ('.nav', 100);
     ScrollEvent.scrollEventHandler ('.scrollTop', 100);
     ScrollEvent.scrollTopEventHandler ('.scrollTop__btn-top', 0, 'smooth');
+    
+    const observer = new ObserverEvent(document.querySelectorAll('.motion'));
+    console.dir(observer);
 
     const gnbHandler = () => {
         $('.gnb-closeBtn').addEventListener('click', () => {
-            $('.gnbArea').
+            $('.gnbArea').classList.toggle('on');
         });
     }
     gnbHandler();
