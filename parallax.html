@@ -49,15 +49,15 @@
 
             observerEvent (lists) {
                 console.log('observerEvent',this.elem);
-                console.log(Object.entries(lists));
-                const observer = new IntersectionObserver (etnries => {
-                    etnries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            console.log(entry.target);
-                        }
-                    });
-                });
-                this.elem.forEach(v => observer.observe(v));
+                // console.log(Object.entries(lists));
+                // const observer = new IntersectionObserver (etnries => {
+                //     etnries.forEach(entry => {
+                //         if (entry.isIntersecting) {
+                //             console.log(entry.target);
+                //         }
+                //     });
+                // });
+                // this.elem.forEach(v => observer.observe(v));
             }
 
             parallaxEvent (lists) {

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./js/menu.js"></script>
+    <title>임시화면 페이지</title>
+    <link rel="stylesheet" href="./css/menu.css">
+</head>
+<body>
+    <div id="skipNav">
+        <h2 class="blind">스킵 네비게이션</h2>
+        <ul>
+            <li><a href="#gnbArea__tit">네비게이션 바로가기</a></li>
+            <li><a href="#contents__tit">본문 바로가기</a></li>
+            <li><a href="#footer__tit">하단 바로가기</a></li>
+        </ul>
+    </div>
+
+    <div id="wrap">
+        <header>
+            <div class="header">
+                <h1 class="logo">Logo</h1>
+                <ul id="header__util">
+                    <li>util1</li>
+                    <li>util2</li>
+                    <li>util3</li>
+                </ul>
+            </div>
+            <div class="gnbArea">
+                <h2 class="blind" id="gnbArea__tit">네비게이션</h2>
+                <ul class="gnb">
+                    <li>
+                        <dl>
+                            <dt>menu1</dt>
+                            <dd>
+                                <ul>
+                                    <li><a href="#none">menu1</a></li>
+                                    <li><a href="#none">menu2</a></li>
+                                    <li><a href="#none">menu3</a></li>
+                                </ul>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <dt>menu2</dt>
+                            <dd>
+                                <ul>
+                                    <li><a href="#none">menu1</a></li>
+                                    <li><a href="#none">menu2</a></li>
+                                    <li><a href="#none">menu3</a></li>
+                                </ul>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <dt>menu3</dt>
+                            <dd>
+                                <ul>
+                                    <li><a href="#none">menu1</a></li>
+                                    <li><a href="#none">menu2</a></li>
+                                    <li><a href="#none">menu3</a></li>
+                                </ul>
+                            </dd>
+                        </dl>
+                    </li>
+                </ul>
+                <div class="gnb-closeBtn">메뉴닫기</div>
+                <div class="gnb-dimmed"></div>
+            </div>
+            <div class="nav">
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </header>
+
+        <div class="scrollTop">
+            <a href="#wrap" class="scrollTop__btn-top"><span class="blind">위로 이동</span></a>
+        </div>
+
+        <!-- 본문 -->
+        <div class="contents">
+            <h2 class="blind" id="contents__tit">본문</h2>
+            <section>
+                <p>contents...</p>
+            </section>
+        </div>
+
+        <footer>
+            <h2 class="blind" id="footer__tit">하단</h2>
+        </footer>
+    </div>
+</body>
+</html>
