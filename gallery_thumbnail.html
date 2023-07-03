@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/swiper-bundle.css">
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        .blind {text-indent: -9999px; font-size: 0; line-height: 0;}
+        .gallery-box {width: 700px; margin: 0 auto; padding: 0 50px; text-align: center;} 
+        .gallery-box > div {position: relative;}
+        .gallery-box__main .swiper-slide {width: 100%; height: 400px; background: royalblue; line-height: 400px;}
+        .gallery-box__main .gallery-box__main__control > div {position: absolute; transform: translateY(-50%); top: 50%; width: 50px; height: 50px; z-index: 10; cursor: pointer; background: rgba(0, 0, 0, 0.2);}
+        .gallery-box__main__control .main__control__btn-prev {left: 0px;}
+        .gallery-box__main__control .main__control__btn-next {right: 0px;}
+        .gallery-box__thumbs {width: 100%; line-height: 100px; text-align: center;}
+        .gallery-box__thumbs .swiper-wrapper {flex-wrap: wrap;}
+        .gallery-box__thumbs .swiper-slide {display: inline-block; width: 20%; height: 100px; background: gray; cursor: pointer;}
+        .gallery-box__thumbs .swiper-slide-thumb-active {background: whitesmoke; transition: all 0.2s;}
+    </style>
+</head>
+<body>
+    <div class="gallery-box">
+        <!-- main slider -->
+        <div class="swiper gallery-box__main">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">Slide 1</div>
+                <div class="swiper-slide">Slide 2</div>
+                <div class="swiper-slide">Slide 3</div>
+                <div class="swiper-slide">Slide 4</div>
+                <div class="swiper-slide">Slide 5</div>
+                <div class="swiper-slide">Slide 6</div>
+                <div class="swiper-slide">Slide 7</div>
+                <div class="swiper-slide">Slide 8</div>
+                <div class="swiper-slide">Slide 9</div>
+                <div class="swiper-slide">Slide 10</div>
+            </div>
+            <div class="gallery-box__main__control">
+                <div class="main__control__btn-prev blind">이전</div>
+                <div class="main__control__btn-next blind">다음</div>
+            </div>
+        </div>
+        <!-- //main slider -->
+        <!-- thumbnail slider -->
+        <div class="swiper gallery-box__thumbs">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">Slide 1</div>
+                <div class="swiper-slide">Slide 2</div>
+                <div class="swiper-slide">Slide 3</div>
+                <div class="swiper-slide">Slide 4</div>
+                <div class="swiper-slide">Slide 5</div>
+                <div class="swiper-slide">Slide 6</div>
+                <div class="swiper-slide">Slide 7</div>
+                <div class="swiper-slide">Slide 8</div>
+                <div class="swiper-slide">Slide 9</div>
+                <div class="swiper-slide">Slide 10</div>
+            </div>
+        </div>
+        <!-- //thumbanil slider -->
+    </div>
+
+    <!-- <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script> -->
+    <script src="./js/swiper-bundle.min.js"></script>
+    <script>
+        /*
+        $(document).ready(function() {
+            // main slider 실행
+            const thumbSwiper = new Swiper('.gallery-box__thumbs', {
+                //watchSlidesProgress: true,
+                //slideToClickedSlide: true,
+                slidesPerView: 5, 
+                loopedSlides: 5,
+                loop: true,
+                // on: {
+                //     init: function () {
+                //         console.log(this);
+                //         this.eventsListeners.clickSlide[0]();
+                //     },
+                //     clickSlide: function () {
+                //         $('.gallery-box__thumbs .swiper-slide').click(function(){
+                //             if( !$(this).hasClass('swiper-slide-thumb-active') ){
+                //                 mainSwiper.slideTo($(this).index());
+                //             }
+                //         });
+                //     }
+                // }
+            });
+            // main slider 실행
+            const mainSwiper = new Swiper('.gallery-box__main', {
+                allowTouchMove: true,
+                spaceBetween: 20,
+                navigation: {
+                    nextEl: '.main__control__btn-next',
+                    prevEl: '.main__control__btn-prev'
+                },
+                autoplay: {
+                    delay: 2000,
+                },
+                loop: true,
+                thumbs: {
+                    swiper : thumbSwiper,
+                }
+            });
+
+        });
+        */
+
+        window.onload = () => {
+            const thumbSwiper = new Swiper ('.gallery-box__thumbs', {
+                slidesPerView: 'auto', 
+                loop: true,
+            });
+            const mainSwiper = new Swiper ('.gallery-box__main', {
+                allowTouchMove: true,
+                spaceBetween: 20,
+                navigation: {
+                    nextEl: '.main__control__btn-next',
+                    prevEl: '.main__control__btn-prev'
+                },
+                autoplay: {
+                    delay: 2000,
+                },
+                loop: true,
+                thumbs: {
+                    swiper : thumbSwiper,
+                }
+            });   
+        }
+    </script>
+</body>
+</html>

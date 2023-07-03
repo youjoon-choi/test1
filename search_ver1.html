@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>search</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        ul, ol, dl {list-style: none;}
+        .search {width: 300px;}
+        .search .search__input {all: unset; width: 100%; height: 30px; line-height: 30px; font-size: 1rem; border: 1px solid #ccc; padding: 0 10px;}
+        .search .search__length {height: 30px; line-height: 30px; font-size: 1rem; text-align: right;}
+        .search .search__output__list{width: 100%; height: 300px; overflow-y: auto;}
+        .search .search__output__list > li {padding: 5px 10px;}
+        .search .search__output__list > li:hover {background: #eee;}
+        .search .search__output__list > li + li {border-top: 1px solid #ccc}
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <form class="search textSearch">
+            <input type="text" class="search__input">
+            <div class="search__length"></div>
+            <div class="search__output">
+                <ul class="search__output__list">
+                </ul>
+            </div>
+        </form>
+        <form class="search textSearch2">
+            <input type="text" class="search__input">
+            <div class="search__length"></div>
+            <div class="search__output">
+                <ul class="search__output__list">
+                </ul>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        window.onload = () => {
+            class Search {
+                constructor (el, type = true) {
+                    this.$el = document.querySelector(el);
+                    this.type = type;
+                    this.inputWord = '';
+                    this.outputLists = this.createOutputLists();
+                    this.search ();
+                }
+
+                render (status, v) {
+                    const lists = this.$el.querySelector('.search__output__list');
+                    if (status == 'create') {
+                        const li = document.createElement('li');
+                        if (this.inputWord !== '' && this.type == true) {
+                            const input = v.split(this.inputWord);
+                            li.insertAdjacentHTML('afterbegin', `${input[0]}<mark>${this.inputWord}</mark>${input[1]}`);
+                        } else if (this.inputWord !== '' && this.type == false) {
+                            const upperV = v.toUpperCase();
+                            const upperInputWord = this.inputWord.toUpperCase();
+                            const input = upperV.split(upperInputWord);
+                            console.log(v.slice(0, input[0].length) + v.slice(0, input[1].length));
+                        } else {
+                            li.textContent = v;
+                        }
+                        lists.appendChild(li);
+                    } else if (status == 'init') {
+                        while (lists.firstChild) {
+                            lists.firstChild.remove();
+                        }
+                    } 
+                }
+
+                createOutputLists () {
+                    const words = [
+                        ...Array(10).fill().map((v, i) => i),
+                        ...Array(26).fill().map((v, i) => String.fromCharCode(97 + i)),
+                        ...Array(26).fill().map((v, i) => String.fromCharCode(97 + i).toUpperCase())
+                    ]
+                    const outputLists = Array(5000).fill('').map(v => {
+                        for (let i = 0; i < 5; i++) {
+                            v += words[Math.floor(Math.random() * words.length)];
+                        }
+                        this.render('create', v);
+                        return v;
+                    });
+                    this.render('count', outputLists.length);
+                    return outputLists;
+                }
+
+                listCount (v = this.outputLists.length) {
+                    let listsCnt = this.$el.querySelector('.search__length');
+                    listsCnt.textContent = `${v} / ${this.outputLists.length}`;
+                }
+
+                search () {
+                    this.createOutputLists();
+                    this.listCount();
+                    this.$el.addEventListener('input', e => {
+                        this.render('init');
+                        this.inputWord = e.target.value;
+                        const filterList =  this.outputLists.filter(v => {
+                            if (this.type == false) {
+                                const upperV = v.toUpperCase();
+                                const upperInputWord = this.inputWord.toUpperCase();
+                                return upperV.split(upperInputWord).length > 1;
+                            }
+                            return v.split(this.inputWord).length > 1;
+                        });
+                        filterList.forEach(v => this.render('create', v));
+                        this.listCount(filterList.length);
+                    });
+                }
+            }
+
+            const searchForm = new Search ('.textSearch', true);
+            const searchForm2 = new Search ('.textSearch2', false);
+            console.dir(searchForm);
+            console.dir(searchForm2);
+        }
+    </script>
+</body>
+</html>
